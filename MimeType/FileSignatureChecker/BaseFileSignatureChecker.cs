@@ -11,9 +11,12 @@ namespace MimeType.FileSignatureChecker
 
             return Encoding.ASCII.GetBytes(val);
         }
-        public bool BytesEqual(byte[] source, byte[] destination)
+        public bool BytesEqual(byte[]? source, byte[]? destination)
         {
-            if (source.Length != destination.Length)
+            if (source == null && destination == null)
+                return true;
+
+            if (source == null || destination == null || source.Length != destination.Length)
                 return false;
 
             for (int i = 0; i < source.Length; i++)

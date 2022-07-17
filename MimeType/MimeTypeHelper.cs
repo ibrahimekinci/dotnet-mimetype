@@ -4,52 +4,36 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace MimeType.Helpers
+namespace MimeType
 {
     public class MimeTypeHelper
     {
         internal static uint headerSizeLimitBytes = 1024;
-        #region fileTypes
-        internal static HashSet<FileType> RootFileTypes = new HashSet<FileType>
+        internal HashSet<FileType> FileTypes;
+        public MimeTypeHelper()
         {
-//image start
-		    FileTypes.Png,
-            FileTypes.Jpg,
-            FileTypes.Jp2,
-            FileTypes.Jpx,
-            FileTypes.Jpm,
-            FileTypes.Gif,
-            FileTypes.Bmp,
-            FileTypes.Ps,
-            FileTypes.Psd,
-            FileTypes.Ico,
-            FileTypes.Icns,
-            FileTypes.Tiff,
-            FileTypes.Bpg,
-            FileTypes.Xcf,
-            FileTypes.Pat,
-            FileTypes.Gbr,
-            FileTypes.Hdr,
-            FileTypes.Xpm,
-            FileTypes.Webp,
-            FileTypes.Dwg,
-            FileTypes.Jxl, 
-//image end
-        };
-        #endregion
+            var fileTypeHelper = new FileTypeHelper();
+            FileTypes = fileTypeHelper.RootFileTypes;
+        }
 
-        #region func
+        public MimeTypeHelper(HashSet<FileType> fileTypes)
+        {
+            if (fileTypes == null)
+                throw new Exception("FileTypes cannot is empty");
+
+            FileTypes = fileTypes;
+        }
+
+        #region utils
         private byte[]? GetFileBytesByMaxSizeLimit(Stream? fileStream)
         {
-            byte[]? fileBytes = null;
+            if (fileStream == null || fileStream.Length == 0)
+                return null;
 
-            if (fileStream?.Length > 0)
-            {
-                var readSizeBytes = fileStream.Length > headerSizeLimitBytes ? headerSizeLimitBytes : fileStream.Length;
-                fileBytes = new byte[readSizeBytes];
+            var readSizeBytes = fileStream.Length > headerSizeLimitBytes ? headerSizeLimitBytes : fileStream.Length;
+            byte[]? fileBytes = new byte[readSizeBytes];
 
-                fileStream.Read(fileBytes, 0, fileBytes.Length);
-            }
+            fileStream.Read(fileBytes, 0, fileBytes.Length);
 
             return fileBytes;
         }
@@ -66,9 +50,7 @@ namespace MimeType.Helpers
             byte[] fileBytes = new byte[readSizeBytes];
 
             using (var stream = fileInfo.OpenRead())
-            {
                 stream.Read(fileBytes, 0, fileBytes.Length);
-            }
 
             return fileBytes;
         }
@@ -77,33 +59,26 @@ namespace MimeType.Helpers
         #region map table
         public string GetFileExtensionWithoutPointByMimeType(string mimeType)
         {
-            var fileExtensionWithoutPoint = string.Empty;
+            if (string.IsNullOrWhiteSpace(mimeType))
+                return string.Empty;
 
-            if (!string.IsNullOrWhiteSpace(mimeType))
-            {
-                mimeType = mimeType.ToLower();
+            FileType? fileType = FileTypes.Where(x => string.Equals(x.Mime, mimeType, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 
-                FileType fileType = RootFileTypes.Where(x => string.Equals(x.Mime, mimeType, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            if (fileType == null)
+                fileType = FileTypes.Where(x => x.Aliases != null && x.Aliases.Any(y => string.Equals(y, mimeType, StringComparison.OrdinalIgnoreCase))).FirstOrDefault();
 
-                if (fileType == null)
-                    fileType = RootFileTypes.Where(x => x.Aliases.Any(y => string.Equals(y, mimeType, StringComparison.OrdinalIgnoreCase))).FirstOrDefault();
-
-                fileExtensionWithoutPoint = fileType?.Extension ?? string.Empty;
-            }
-
+            var fileExtensionWithoutPoint = fileType?.Extension ?? string.Empty;
             return fileExtensionWithoutPoint;
         }
         public string GetMimeTypeByFileExtensionWithoutPoint(string fileExtensionWithoutPoint)
         {
-            var mimeType = string.Empty;
+            if (string.IsNullOrWhiteSpace(fileExtensionWithoutPoint))
+                return string.Empty;
 
-            if (!string.IsNullOrWhiteSpace(fileExtensionWithoutPoint))
-            {
-                fileExtensionWithoutPoint = fileExtensionWithoutPoint.ToLower();
+            fileExtensionWithoutPoint = fileExtensionWithoutPoint.ToLower();
 
-                FileType fileType = RootFileTypes.Where(x => string.Equals(x.Extension, fileExtensionWithoutPoint, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-                mimeType = fileType?.Mime ?? string.Empty;
-            }
+            FileType? fileType = FileTypes.Where(x => string.Equals(x.Extension, fileExtensionWithoutPoint, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            var mimeType = fileType?.Mime ?? string.Empty;
 
             return mimeType;
         }
@@ -140,36 +115,31 @@ namespace MimeType.Helpers
         #endregion
 
         #region file signature fileBytes
-
         public string GetFileExtensionWithoutPointByFileSignatureFromBytes(byte[]? fileBytes)
         {
-            var fileExtensionWithoutPoint = string.Empty;
+            if (fileBytes == null || fileBytes.Length == 0)
+                return string.Empty;
 
-            if (fileBytes?.Length > 0)
-            {
-                if (fileBytes.Length > headerSizeLimitBytes)
-                    fileBytes = fileBytes.Take((int)headerSizeLimitBytes).ToArray();
+            if (fileBytes.Length > headerSizeLimitBytes)
+                fileBytes = fileBytes.Take((int)headerSizeLimitBytes).ToArray();
 
-                FileType fileType = RootFileTypes.Where(x => x.Is(fileBytes)).FirstOrDefault();
+            FileType fileType = FileTypes.Where(x => x.Is(fileBytes)).FirstOrDefault();
 
-                fileExtensionWithoutPoint = fileType?.Extension ?? string.Empty;
-            }
+            var fileExtensionWithoutPoint = fileType?.Extension ?? string.Empty;
 
             return fileExtensionWithoutPoint;
         }
         public string GetMimeTypeByFileSignatureFromBytes(byte[]? fileBytes)
         {
-            var mimeType = string.Empty;
+            if (fileBytes == null || fileBytes.Length == 0)
+                return string.Empty;
 
-            if (fileBytes?.Length > 0)
-            {
-                if (fileBytes.Length > headerSizeLimitBytes)
-                    fileBytes = fileBytes.Take((int)headerSizeLimitBytes).ToArray();
+            if (fileBytes.Length > headerSizeLimitBytes)
+                fileBytes = fileBytes.Take((int)headerSizeLimitBytes).ToArray();
 
-                FileType fileType = RootFileTypes.Where(x => x.Is(fileBytes)).FirstOrDefault();
+            FileType fileType = FileTypes.Where(x => x.Is(fileBytes)).FirstOrDefault();
 
-                mimeType = fileType?.Mime ?? string.Empty;
-            }
+            var mimeType = fileType?.Mime ?? string.Empty;
 
             return mimeType;
         }
@@ -187,5 +157,16 @@ namespace MimeType.Helpers
             return GetMimeTypeByFileSignatureFromBytes(fileBytes);
         }
         #endregion
+
+        //TODO
+        public bool ValidateFile(string fileExtension, string mimeType, byte[] fileBytes)
+        {
+            return true;
+        }
+        //TODO
+        public bool ValidateFileFromFileSystem(string fileExtension, string mimeType, string filePath)
+        {
+            return true;
+        }
     }
 }

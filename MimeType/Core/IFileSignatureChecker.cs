@@ -1,7 +1,7 @@
 ﻿namespace MimeType.Core
 {
-    internal interface IFileSignatureChecker
+    public interface IFileSignatureChecker
     {
-        public bool Is(byte[] fileBytes);
+        public bool Is(byte[] raw);
     }
 }

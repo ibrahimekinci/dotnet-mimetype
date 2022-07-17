@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace MimeType.Models
 {
-    internal class FileSignature
+    public class FileSignature
     {
         protected readonly IFileSignatureChecker[] _checkers;
         public FileSignature(params IFileSignatureChecker[] checkers)
         {
-            if (checkers == null || !checkers.Any())
-                throw new Exception("MimeType -> checkers cannot is empty");
+            if (checkers == null || checkers.Length == 0)
+                throw new Exception("Checkers cannot is empty");
 
             _checkers = checkers;
         }

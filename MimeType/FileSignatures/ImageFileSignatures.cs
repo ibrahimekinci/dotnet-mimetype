@@ -9,6 +9,10 @@ namespace MimeType.FileSignatures
         // Png matches a Portable Network Graphics file.
         public static FileSignature Png = new FileSignature(new PrefixFileSignatureChecker(new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A }));
 
+        // Apng matches an Animated Portable Network Graphics file.
+        // https://wiki.mozilla.org/APNG_Specification
+        public static FileSignature Apng = new FileSignature(new OffsetFileSignatureChecker(37,"acTL"));
+
         // Jpg matches a Joint Photographic Experts Group file.
         public static FileSignature Jpg = new FileSignature(new PrefixFileSignatureChecker(new byte[] { 0xFF, 0xD8, 0xFF }));
 

@@ -1,4 +1,5 @@
 ﻿using MimeType.Core;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -10,27 +11,37 @@ namespace MimeType.FileSignatureChecker
         private readonly uint _minByteLength;
         public PrefixFileSignatureChecker(params byte[][] signatures)
         {
+            if (signatures == null || signatures.Length == 0)
+                throw new Exception("signatures cannot is empty");
+
             _signatures = signatures;
         }
         public PrefixFileSignatureChecker(params string[] signatures)
         {
-            if (signatures != null && signatures.Length > 0)
-                _signatures = signatures.Select(x => ConvertToBytes(x)).Where(x => x != null && x.Length > 0).ToArray();
+            if (signatures == null || signatures.Length == 0)
+                throw new Exception("signatures cannot is empty");
+
+            _signatures = signatures.Select(x => ConvertToBytes(x)).Where(x => x != null && x.Length > 0).ToArray();
         }
         public PrefixFileSignatureChecker(uint minByteLength, params byte[][] signatures)
         {
+            if (signatures == null || signatures.Length == 0)
+                throw new Exception("signatures cannot is empty");
+
             _minByteLength = minByteLength;
             _signatures = signatures;
         }
         public PrefixFileSignatureChecker(uint minByteLength, params string[] signatures)
         {
+            if (signatures == null || signatures.Length == 0)
+                throw new Exception("signatures cannot is empty");
+
             _minByteLength = minByteLength;
-            if (signatures != null && signatures.Length > 0)
-                _signatures = signatures.Select(x => ConvertToBytes(x)).Where(x => x != null && x.Length > 0).ToArray();
+            _signatures = signatures.Select(x => ConvertToBytes(x)).Where(x => x != null && x.Length > 0).ToArray();
         }
         public bool Is(byte[] raw)
         {
-            if (raw?.Length > 0 && raw?.Length > _minByteLength)
+            if (raw?.Length > 0 && raw?.Length >= _minByteLength)
             {
                 foreach (var signature in _signatures)
                 {
@@ -42,7 +53,6 @@ namespace MimeType.FileSignatureChecker
                     }
                 }
             }
-
             return false;
         }
     }
