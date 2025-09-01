@@ -1,21 +1,21 @@
-# dotnet-mimetype
+# File Type Detector
 
 A .NET library for detecting MIME types and file extensions based on file signatures (magic bytes) and predefined mappings. This project provides a robust way to identify file types from byte arrays, streams, or file paths, supporting both signature-based detection and extension-to-MIME type mappings.
 
 ## Overview
 
-The `dotnet-mimetype` library is designed to help developers identify file types and MIME types accurately in .NET applications. It supports detection through file signatures (magic bytes) for precise identification and includes a comprehensive mapping of MIME types to file extensions. The library is built with extensibility in mind, allowing developers to add support for additional file formats.
+The `File Type Detector` library is designed to help developers identify file types and MIME types accurately in .NET applications. It supports detection through file signatures (magic bytes) for precise identification and includes a comprehensive mapping of MIME types to file extensions. The library is built with extensibility in mind, allowing developers to add support for additional file formats.
 
 
 ## NuGet Package Information
 
-- **Package Name**: dotnet-MimeType
+- **Package Name**: File Type Detector
 - **Version**: 1.0.0
-- **NuGet Link**: [https://www.nuget.org/packages/dotnet-MimeType](https://www.nuget.org/packages/dotnet-MimeType)
+- **NuGet Link**: [https://www.nuget.org/packages/FileTypeDetector](https://www.nuget.org/packages/FileTypeDetector)
 
 - **Installation Command**:
   ```bash
-  dotnet add package dotnet-MimeType
+  dotnet add package FileTypeDetector
   ```
 
 ## Features
@@ -27,9 +27,9 @@ The `dotnet-mimetype` library is designed to help developers identify file types
 - **Exception Handling**: Provides clear error messages for invalid or non-readable inputs.
 
 ## Installation
-   Add the `dotnet-MimeType` package using the .NET CLI:
+   Add the `FileTypeDetector` package using the .NET CLI:
    ```bash
-   dotnet add package dotnet-MimeType --version 1.0.0
+   dotnet add package FileTypeDetector
    ```
 
 ## Usage
@@ -94,7 +94,7 @@ foreach (var ext in extensions)
 
 ## Example project
 #### Project link
-[https://github.com/ibrahimekinci/dotnet-mimetype/tree/develop/MimeType.Example](https://github.com/ibrahimekinci/dotnet-mimetype/tree/develop/MimeType.Example)
+[https://github.com/ibrahimekinci/FileType Detector/tree/develop/MimeType.Example](https://github.com/ibrahimekinci/FileType Detector/tree/develop/MimeType.Example)
 #### Project Output
 
 ```plaintext
@@ -149,7 +149,7 @@ Press any key to exit...
 
 We welcome contributions to expand the supported file formats and improve the library! To contribute:
 
-1. Fork the repository: [https://github.com/ibrahimekinci/dotnet-mimetype](https://github.com/ibrahimekinci/dotnet-mimetype)
+1. Fork the repository: [https://github.com/ibrahimekinci/dotnet-FileTypeDetector](https://github.com/ibrahimekinci/dotnet-FileTypeDetector)
 2. Add new file signature checkers or enhance existing ones in the `MimeType.Infrastructure.FileSignatureCheckers` namespace.
 3. Update the `BuiltInFileTypes` class to include new file signatures and mappings.
 4. Submit a pull request with a clear description of your changes.

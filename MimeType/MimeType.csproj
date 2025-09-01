@@ -4,20 +4,28 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>dotnet-MimeType</PackageId>
-    <Version>1.0.0</Version>
+    <PackageId>FileTypeDetector</PackageId>
+    <Version>1.0.1</Version>
     <Authors>Ibrahim Ekinci</Authors>
     <Company>Ibrahim Ekinci</Company>
     <Product>MimeType Utility Library</Product>
+	<PackageIcon>logo.png</PackageIcon>
     <Description>A .NET library for detecting MIME types and file extensions based on file signatures and mappings.</Description>
-    <RepositoryUrl>https://github.com/ibrahimekinci/dotnet-mimetype</RepositoryUrl>
+    <RepositoryUrl>https://github.com/ibrahimekinci/dotnet-FileTypeDetector</RepositoryUrl>
     <PackageTags>mime mimetype filetype detection extension signature</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://github.com/ibrahimekinci/dotnet-mimetype</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/ibrahimekinci/dotnet-FileTypeDetector</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Title>File Type Detector</Title>
+    <PackageIcon></PackageIcon>
+    <PackageReleaseNotes>logo and readme updated</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="" />
+    <None Update="Files\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+	<None Include="../README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
