@@ -6,6 +6,18 @@ A .NET library for detecting MIME types and file extensions based on file signat
 
 The `dotnet-mimetype` library is designed to help developers identify file types and MIME types accurately in .NET applications. It supports detection through file signatures (magic bytes) for precise identification and includes a comprehensive mapping of MIME types to file extensions. The library is built with extensibility in mind, allowing developers to add support for additional file formats.
 
+
+## NuGet Package Information
+
+- **Package Name**: dotnet-MimeType
+- **Version**: 1.0.0
+- **NuGet Link**: [https://www.nuget.org/packages/dotnet-MimeType](https://www.nuget.org/packages/dotnet-MimeType)
+
+- **Installation Command**:
+  ```bash
+  dotnet add package dotnet-MimeType
+  ```
+
 ## Features
 
 - **File Signature Detection**: Detects file types by analyzing magic bytes from files, streams, or byte arrays.
@@ -15,12 +27,10 @@ The `dotnet-mimetype` library is designed to help developers identify file types
 - **Exception Handling**: Provides clear error messages for invalid or non-readable inputs.
 
 ## Installation
-
-Clone the repository and include the project in your .NET solution, or build and reference the compiled DLL.
-
-```bash
-git clone https://github.com/ibrahimekinci/dotnet-mimetype.git
-```
+   Add the `dotnet-MimeType` package using the .NET CLI:
+   ```bash
+   dotnet add package dotnet-MimeType --version 1.0.0
+   ```
 
 ## Usage
 
@@ -39,6 +49,20 @@ foreach (var fileType in fileTypes)
     Console.WriteLine($"MIME: {fileType.Mime}, Extensions: {string.Join(", ", fileType.Extensions)}");
 }
 ```
+#### Supported File Signatures
+
+The library currently supports signature-based detection for the following image formats:
+
+- **BMP** (.bmp): Starts with "BM".
+- **GIF** (.gif): Starts with "GIF87a" or "GIF89a".
+- **PNG** (.png): Starts with `0x89 0x50 0x4E 0x47 0x0D 0x0A 0x1A 0x0A`.
+- **TIFF** (.tiff, .tif): Starts with `0x49 0x49 0x2A 0x00` (II*) or `0x4D 0x4D 0x00 0x2A` (MM*).
+- **WebP** (.webp): Starts with "RIFF" followed by "WEBP" at offset 8.
+- **JPEG** (.jpg, .jpeg, .jpe, .jfif): Starts with `0xFF 0xD8 0xFF`.
+- **JPEG XL** (.jxl): Starts with `0xFF 0x0A` (raw codestream) or a 12-byte container signature.
+- **DWG** (.dwg): Starts with "AC" followed by version strings like "1.40", "1002", etc.
+
+Additional file formats (e.g., audio, video, and archive formats) are supported for MIME type-to-extension mappings but lack signature detection at this time. Support for these formats will be added in future updates.
 
 ### Detecting MIME Types by Extension
 
@@ -46,7 +70,7 @@ foreach (var fileType in fileTypes)
 using MimeType.Services;
 
 var mimeDetector = new MimeTypeDetector();
-var mimeTypes = mimeDetector.Detect("png");
+var mimeTypes = mimeDetector.Detect(".png");
 
 foreach (var mime in mimeTypes)
 {
@@ -68,20 +92,58 @@ foreach (var ext in extensions)
 }
 ```
 
-## Supported File Signatures
+## Example project
+#### Project link
+[https://github.com/ibrahimekinci/dotnet-mimetype/tree/develop/MimeType.Example](https://github.com/ibrahimekinci/dotnet-mimetype/tree/develop/MimeType.Example)
+#### Project Output
 
-The library currently supports signature-based detection for the following image formats:
+```plaintext
+=== DotNetMimeType Example Console Application ===
 
-- **BMP** (.bmp): Starts with "BM".
-- **GIF** (.gif): Starts with "GIF87a" or "GIF89a".
-- **PNG** (.png): Starts with `0x89 0x50 0x4E 0x47 0x0D 0x0A 0x1A 0x0A`.
-- **TIFF** (.tiff, .tif): Starts with `0x49 0x49 0x2A 0x00` (II*) or `0x4D 0x4D 0x00 0x2A` (MM*).
-- **WebP** (.webp): Starts with "RIFF" followed by "WEBP" at offset 8.
-- **JPEG** (.jpg, .jpeg, .jpe, .jfif): Starts with `0xFF 0xD8 0xFF`.
-- **JPEG XL** (.jxl): Starts with `0xFF 0x0A` (raw codestream) or a 12-byte container signature.
-- **DWG** (.dwg): Starts with "AC" followed by version strings like "1.40", "1002", etc.
+=== MIME Type Detection from Extension ===
+Extension: .jpg
+MIME Type: image/jpeg
 
-Additional file formats (e.g., audio, video, and archive formats) are supported for MIME type-to-extension mappings but lack signature detection at this time. Support for these formats will be added in future updates.
+=== ************************************* ===
+
+=== Extension Detection from MIME Type ===
+MIME Type: image/jpeg
+Extensions: jpg, jpeg, jpe, jfif
+
+=== ************************************* ===
+
+=== File Signature Detection from File Path ===
+File: [absolute-path]\Files\valid_file (1).png
+MIME: image/png, Extensions: png
+File: [absolute-path]\Files\valid_file (1).jpg
+MIME: image/jpeg, Extensions: jpg, jpeg, jpe, jfif
+File: [absolute-path]\Files\valid_file (1).webp
+MIME: image/webp, Extensions: webp
+
+=== ************************************* ===
+
+=== File Signature Detection from Stream ===
+File: [absolute-path]\Files\valid_file (1).png
+MIME: image/png, Extensions: png
+File: [absolute-path]\Files\valid_file (1).jpg
+MIME: image/jpeg, Extensions: jpg, jpeg, jpe, jfif
+File: [absolute-path]\Files\valid_file (1).webp
+MIME: image/webp, Extensions: webp
+
+=== ************************************* ===
+
+=== File Signature Detection from Byte Array ===
+File: [absolute-path]\Files\valid_file (1).png
+MIME: image/png, Extensions: png
+File: [absolute-path]\Files\valid_file (1).jpg
+MIME: image/jpeg, Extensions: jpg, jpeg, jpe, jfif
+File: [absolute-path]\Files\valid_file (1).webp
+MIME: image/webp, Extensions: webp
+
+=== ************************************* ===
+
+Press any key to exit...
+```
 
 ## Contributing
 
