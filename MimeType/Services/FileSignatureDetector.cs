@@ -11,7 +11,7 @@ namespace MimeType.Services
     /// <summary>
     /// Detects file types based on file signatures (magic bytes) from files, streams, or byte arrays.
     /// </summary>
-    public sealed class FileSignatureDetector() : IFileSignatureDetector
+    public class FileSignatureDetector() : IFileSignatureDetector
     {
         public ImmutableHashSet<FileTypeModel> Detect(byte[] fileBytes, string? fileExtension = null)
         {

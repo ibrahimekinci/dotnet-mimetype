@@ -1,0 +1,108 @@
+# dotnet-mimetype
+
+A .NET library for detecting MIME types and file extensions based on file signatures (magic bytes) and predefined mappings. This project provides a robust way to identify file types from byte arrays, streams, or file paths, supporting both signature-based detection and extension-to-MIME type mappings.
+
+## Overview
+
+The `dotnet-mimetype` library is designed to help developers identify file types and MIME types accurately in .NET applications. It supports detection through file signatures (magic bytes) for precise identification and includes a comprehensive mapping of MIME types to file extensions. The library is built with extensibility in mind, allowing developers to add support for additional file formats.
+
+## Features
+
+- **File Signature Detection**: Detects file types by analyzing magic bytes from files, streams, or byte arrays.
+- **MIME Type Detection**: Maps file extensions to their corresponding MIME types.
+- **Extensible Architecture**: Easily extendable to support additional file formats through custom signature checkers.
+- **Thread-Safe Lazy Loading**: Uses lazy-initialized collections for efficient and thread-safe access to file type and MIME type data.
+- **Exception Handling**: Provides clear error messages for invalid or non-readable inputs.
+
+## Installation
+
+Clone the repository and include the project in your .NET solution, or build and reference the compiled DLL.
+
+```bash
+git clone https://github.com/ibrahimekinci/dotnet-mimetype.git
+```
+
+## Usage
+
+### Detecting File Types by Signature
+
+```csharp
+using MimeType.Services;
+using MimeType.Core.Models;
+
+var detector = new FileSignatureDetector();
+byte[] fileBytes = File.ReadAllBytes("sample.png");
+var fileTypes = detector.Detect(fileBytes);
+
+foreach (var fileType in fileTypes)
+{
+    Console.WriteLine($"MIME: {fileType.Mime}, Extensions: {string.Join(", ", fileType.Extensions)}");
+}
+```
+
+### Detecting MIME Types by Extension
+
+```csharp
+using MimeType.Services;
+
+var mimeDetector = new MimeTypeDetector();
+var mimeTypes = mimeDetector.Detect("png");
+
+foreach (var mime in mimeTypes)
+{
+    Console.WriteLine($"MIME Type: {mime}");
+}
+```
+
+### Detecting File Extensions by MIME Type
+
+```csharp
+using MimeType.Services;
+
+var extensionDetector = new FileExtensionDetector();
+var extensions = extensionDetector.Detect("image/png");
+
+foreach (var ext in extensions)
+{
+    Console.WriteLine($"Extension: {ext}");
+}
+```
+
+## Supported File Signatures
+
+The library currently supports signature-based detection for the following image formats:
+
+- **BMP** (.bmp): Starts with "BM".
+- **GIF** (.gif): Starts with "GIF87a" or "GIF89a".
+- **PNG** (.png): Starts with `0x89 0x50 0x4E 0x47 0x0D 0x0A 0x1A 0x0A`.
+- **TIFF** (.tiff, .tif): Starts with `0x49 0x49 0x2A 0x00` (II*) or `0x4D 0x4D 0x00 0x2A` (MM*).
+- **WebP** (.webp): Starts with "RIFF" followed by "WEBP" at offset 8.
+- **JPEG** (.jpg, .jpeg, .jpe, .jfif): Starts with `0xFF 0xD8 0xFF`.
+- **JPEG XL** (.jxl): Starts with `0xFF 0x0A` (raw codestream) or a 12-byte container signature.
+- **DWG** (.dwg): Starts with "AC" followed by version strings like "1.40", "1002", etc.
+
+Additional file formats (e.g., audio, video, and archive formats) are supported for MIME type-to-extension mappings but lack signature detection at this time. Support for these formats will be added in future updates.
+
+## Contributing
+
+We welcome contributions to expand the supported file formats and improve the library! To contribute:
+
+1. Fork the repository: [https://github.com/ibrahimekinci/dotnet-mimetype](https://github.com/ibrahimekinci/dotnet-mimetype)
+2. Add new file signature checkers or enhance existing ones in the `MimeType.Infrastructure.FileSignatureCheckers` namespace.
+3. Update the `BuiltInFileTypes` class to include new file signatures and mappings.
+4. Submit a pull request with a clear description of your changes.
+
+Please ensure your code follows the existing structure and includes appropriate tests.
+
+## References
+
+- [IANA Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml)
+- [MIME Type Reference](https://mimetype.io/all-types)
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Author
+
+Developed by [Ibrahim Ekinci](https://github.com/ibrahimekinci).
