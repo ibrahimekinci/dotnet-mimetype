@@ -54,7 +54,7 @@ namespace MimeType.Tests
         {
             // Arrange
             byte[] jpegBytes = { 0xFF, 0xD8, 0xFF };
-            string extension = "jpg";
+            string extension = ".jpg";
 
             // Act
             var fileTypes = _detector.Detect(jpegBytes, extension);

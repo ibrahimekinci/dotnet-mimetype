@@ -43,8 +43,8 @@ namespace MimeType.Tests
         }
 
         [Theory]
-        [InlineData("valid_file (1).bmp", "bmp", "image/bmp")]
-        [InlineData("valid_file (1).jpg", "jpeg", "image/jpeg")]
+        [InlineData("valid_file (1).bmp", ".bmp", "image/bmp")]
+        [InlineData("valid_file (1).jpg", ".jpeg", "image/jpeg")]
         public void Detect_FilePath_WithExtension_ShouldFilter(string fileName, string extension, string expectedMime)
         {
             // Arrange

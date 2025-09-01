@@ -37,14 +37,14 @@ namespace MimeType.Services
             return
             [
                 // === IMAGE TYPES ===
-                new FileTypeModel(ImageFileSignatures.Bmp,"image/bmp","bmp"),
-                new FileTypeModel(ImageFileSignatures.Gif, "image/gif", "gif"),
-                new FileTypeModel(ImageFileSignatures.Png,"image/png","png"),
-                new FileTypeModel(ImageFileSignatures.Tiff,"image/tiff","tiff","tif"),
-                new FileTypeModel(ImageFileSignatures.Webp, "image/webp","webp"),
-                new FileTypeModel(ImageFileSignatures.Jpeg, "image/jpeg","jpg","jpeg", "jpe", "jfif"),
-                new FileTypeModel(ImageFileSignatures.Jxl,  "image/jxl","jxl"),
-                new FileTypeModel(ImageFileSignatures.Dwg, "image/vnd.dwg","dwg")
+                new FileTypeModel(ImageFileSignatures.Bmp,"image/bmp",".bmp"),
+                new FileTypeModel(ImageFileSignatures.Gif, "image/gif", ".gif"),
+                new FileTypeModel(ImageFileSignatures.Png,"image/png",".png"),
+                new FileTypeModel(ImageFileSignatures.Tiff,"image/tiff",".tiff",".tif"),
+                new FileTypeModel(ImageFileSignatures.Webp, "image/webp",".webp"),
+                new FileTypeModel(ImageFileSignatures.Jpeg, "image/jpeg", ".jpe", ".jpeg", ".jpg", ".pjpg", ".jfif", ".jfif-tbnl", ".jif"),
+                new FileTypeModel(ImageFileSignatures.Jxl,  "image/jxl",".jxl"),
+                new FileTypeModel(ImageFileSignatures.Dwg, "image/vnd.dwg",".dwg")
              ];
         }
     }

@@ -586,6 +586,7 @@ namespace MimeType.Services
                 new MimeTypeModel("image/gif", ".gif"),
                 new MimeTypeModel("image/heic", ".heif", ".heic"),
                 new MimeTypeModel("image/ief", ".ief"),
+                new MimeTypeModel("image/jxl", ".jxl"),
                 new MimeTypeModel("image/jpeg", ".jpe", ".jpeg", ".jpg", ".pjpg", ".jfif", ".jfif-tbnl", ".jif"),
                 new MimeTypeModel("image/pjpeg", ".jpe", ".jpeg", ".jpg", ".pjpg", ".jfi", ".jfif", ".jfif-tbnl", ".jif"),
                 new MimeTypeModel("image/png", ".png"),
