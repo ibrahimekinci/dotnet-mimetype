@@ -10,7 +10,7 @@ The `File Type Detector` library is designed to help developers identify file ty
 ## NuGet Package Information
 
 - **Package Name**: File Type Detector
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 - **NuGet Link**: [https://www.nuget.org/packages/FileTypeDetector](https://www.nuget.org/packages/FileTypeDetector)
 
 - **Installation Command**:
